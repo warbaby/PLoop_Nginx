@@ -1,0 +1,6 @@
+[submodule "PLoop"]
+	path = PLoop
+	url = https://github.com/kurapica/PLoop.git
+[submodule "PLoop_Web"]
+	path = PLoop_Web
+	url = https://github.com/kurapica/PLoop_Web.git
