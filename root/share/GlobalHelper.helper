@@ -1,0 +1,19 @@
+@{
+	local function appendVerSfx(path, suffix, version)
+		return path .. suffix .. (version and "?v=" .. tostring(version) or "")
+	end
+}
+
+@javascript(name, version) {
+	<script type="text/javascript" src="/js/@appendVerSfx(name, '.js', version)"></script>
+}
+
+@javascriptInc(name, version, id) {
+	@if id then
+	<script type="text/javascript" id="@id">
+	@else
+	<script type="text/javascript">
+	@end
+		@[/static/js/@appendVerSfx(name, '.js') // /js/@appendVerSfx(name, '.js', version)]
+	</script>
+}

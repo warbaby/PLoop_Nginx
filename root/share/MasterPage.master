@@ -1,0 +1,13 @@
+@{ helper = "globalhelper.helper", code="master.lua" }
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>@self.PageTitle</title>
+		@{ javascript("jquery-2.1.4.min") }
+		@{head <!-- The header holder -->}
+	</head>
+	<body>
+		@{body <!-- The body holder -->}
+	</body>
+</html>

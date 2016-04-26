@@ -1,0 +1,6 @@
+@{ reload = true }
+
+<h2>
+	Here is a description for index page<br/>
+	To show how to use embed web pages.
+</h2>

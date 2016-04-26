@@ -1,0 +1,26 @@
+@{ master = "/share/masterpage.master" }
+
+@title{
+	PLoop_Mvc Test Page
+}
+
+@jspart{
+	@{ javascript("jquery-2.1.4.min") }
+}
+
+@body{
+	<table>
+		<thead>
+			<th>Name</th>
+			<th>Age</th>
+		</thead>
+		<tbody>
+		@for _, per in ipairs(self.Data) do
+			<tr>
+				<td>@per.Name</td>
+				<td>@per.Age</td>
+			</tr>
+		@end
+		</tbody>
+	</table>
+}
