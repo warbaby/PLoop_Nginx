@@ -1,4 +1,4 @@
-@{ master = "/share/masterpage.master" }
+@{ master = "/share/globalmaster.master" }
 
 @title{
 	PLoop_Mvc Test Page

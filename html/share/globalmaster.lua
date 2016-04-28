@@ -1,10 +1,10 @@
 import "System"
 
-class "master" {
+class "globalmaster" {
 	PageTitle = { Type = String, Default = "MASTER" }
 }
 
-function master:OnLoad()
+function globalmaster:OnLoad()
 	self.PageTitle = "My web site"
 end
 

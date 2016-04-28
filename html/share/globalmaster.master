@@ -1,4 +1,4 @@
-@{ helper = "globalhelper.helper", code="master.lua" }
+@{ helper = "globalmethod.helper", code="globalmaster.lua" }
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>

@@ -1,4 +1,4 @@
-@{ master = "/share/masterpage.master", code="index.lua", session=true }
+@{ master = "/share/globalmaster.master", code="index.lua", session=true }
 
 @{
 	local function plus(a, b) return a + b end
