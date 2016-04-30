@@ -1,9 +1,9 @@
 PLoop_Nginx
 ====
 
-**PLoop_Nginx** is a web framework for [nginx](https://www.nginx.com/) server with [ngx_lua](https://github.com/openresty/lua-nginx-module) module.
+**PLoop_Nginx** is a web framework for [nginx][] server with [ngx_lua][] module.
 
-It's an implement for the [PLoop_Web](https://github.com/kurapica/PLoop_Web) which provides features like page rendering, session & cookie management, MVC supporting and etc. The **PLoop_Nginx** module is used as the middleware between the [PLoop_Web](https://github.com/kurapica/PLoop_Web) and the [ngx_lua](https://github.com/openresty/lua-nginx-module).
+It's an implement for the [PLoop_Web][] which provides features like page rendering, session & cookie management, MVC supporting and etc. The **PLoop_Nginx** module is used as the middleware between the [PLoop_Web][] and the [ngx_lua][].
 
 The System only support UTF-8 for now.
 
@@ -11,9 +11,9 @@ The System only support UTF-8 for now.
 Install
 ====
 
-1. First You should follow the installation in [ngx_lua](https://github.com/openresty/lua-nginx-module#installation).
+1. First You should follow the installation in [ngx_lua][].
 
-2. Use `git clone https://github.com/kurapica/PLoop_Nginx.git` clone the project to your disk, the project has added the [PLoop](https://github.com/kurapica/PLoop) and [PLoop_Web](https://github.com/kurapica/PLoop_Web) as sub modules. So, if you download it directly, you should also download the [PLoop](https://github.com/kurapica/PLoop) and [PLoop_Web](https://github.com/kurapica/PLoop_Web), then extract them into the PLoop_Nginx.
+2. Use `git clone https://github.com/kurapica/PLoop_Nginx.git` clone the project to your disk, the project has added the [PLoop][] and [PLoop_Web][] as sub modules. So, if you download it directly, you should also download the [PLoop][] and [PLoop_Web][], then extract them into the PLoop_Nginx.
 
 2. Using `./nginx -p /path to the the ploop_nginx/` to start server, use the browser open `http://localhost/index.lsp`, you'll see a test page if all works fine.
 
@@ -21,7 +21,7 @@ Install
 Page Rendering
 ====
 
-By using the [PLoop_Web](https://github.com/kurapica/PLoop_Web), an useful page rendering sytem can used for content files, it provides support for mixed lua-html page files, master page and other features.
+By using the [PLoop_Web][], an useful page rendering sytem can used for content files, it provides support for mixed lua-html page files, master page and other features.
 
 Here is an example of a lua server page :
 
@@ -143,7 +143,7 @@ So the reponse of *index.lsp* should be :
 	</html>
 
 
-You can find more information in [PLoop_Web](https://github.com/kurapica/PLoop_Web).
+You can find more information in [PLoop_Web][].
 
 
 MVC Example
@@ -177,24 +177,25 @@ For now, the module part are still under developing. Here is an example for a co
 	__HttpMethod__()
 	function HomeController:Index()
 		-- Use the view to generate content with datas
+		-- Create a view is just like to create a lua server page
 		return self:View("/view/homepage.view", { Data = getData(self) })
 	end
 
-You can find more information in [PLoop_Web](https://github.com/kurapica/PLoop_Web).
+You can find more information in [PLoop_Web][].
 
 
 Directory Structure
 ====
 
-* [PLoop](https://github.com/kurapica/PLoop) - The required lua module, used to provide the oop system.
-* [PLoop_Web](https://github.com/kurapica/PLoop_Web) - The required lua module, used to provide the web framework.
-* **PLoop_NgxLua** - The middleware for [PLoop_Web](https://github.com/kurapica/PLoop_Web) and [ngx_lua](https://github.com/openresty/lua-nginx-module)
+* [PLoop][] - The required lua module, used to provide the oop system.
+* [PLoop_Web][] - The required lua module, used to provide the web framework.
+* **PLoop_NgxLua** - The middleware for [PLoop_Web][] and [ngx_lua][]
 	* *init.lua*
 	* *HttpFiles.lua*
 	* *HttpRequest.lua*
 	* *HttpResponse.lua*
 	* *HttpContext.lua*
-* **conf** - The config files for [nginx](https://www.nginx.com/) and the web framework.
+* **conf** - The config files for [nginx][] and the web framework.
 	* *nginx.conf*
 	* *config.lua*
 * **html** - The content folder for the web site
@@ -407,3 +408,10 @@ There are two config file for the nginx example :
 
 		You can find more information in **PLoop_Web**.
 
+
+
+
+[nginx]: https://www.nginx.com/ "Nginx"
+[ngx_lua]: https://github.com/openresty/lua-nginx-module/ "Openresty"
+[PLoop]: https://github.com/kurapica/PLoop/ "Pure Lua Object-Oriented Program"
+[PLoop_Web]: https://github.com/kurapica/PLoop_Web/ "PLoop Web Framework"
