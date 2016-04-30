@@ -68,64 +68,64 @@ A page file can use another page file as master page(it's a simple inheirt), so 
 
 1. *globalmaster.master* - A master page can't be used to generate response, but can be used as other page's master page.
 
-	<html xmlns="http://www.w3.org/1999/xhtml">
-		<head>
-			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-			<title>@{title My test site}</title>
-			@{head}
-		</head>
-		<body>
-			@{body}
-		</body>
-	</html>
+		<html xmlns="http://www.w3.org/1999/xhtml">
+			<head>
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<title>@{title My test site}</title>
+				@{head}
+			</head>
+			<body>
+				@{body}
+			</body>
+		</html>
 
 2. *rootmaster.master* - use globalmaster.master as master page with several part for head web part.
 
-	@{ master = globalmaster.master }
+		@{ master = globalmaster.master }
 
-	@{
-		local function appendVerSfx(path, suffix, version)
-			return path .. suffix .. (version and "?v=" .. tostring(version) or "")
-		end
-	}
+		@{
+			local function appendVerSfx(path, suffix, version)
+				return path .. suffix .. (version and "?v=" .. tostring(version) or "")
+			end
+		}
 
-	@javascript(name, version) {
-		<script type="text/javascript" src="/js/@appendVerSfx(name, '.js', version)"></script>
-	}
+		@javascript(name, version) {
+			<script type="text/javascript" src="/js/@appendVerSfx(name, '.js', version)"></script>
+		}
 
-	@css(name, version) {
-		<link rel="stylesheet" type="text/css" href="/css/@appendVerSfx(name, '.css', version)" />
-	}
+		@css(name, version) {
+			<link rel="stylesheet" type="text/css" href="/css/@appendVerSfx(name, '.css', version)" />
+		}
 
-	@ head {
-		@{csspart}
-		@{jspart}
-	}
+		@ head {
+			@{csspart}
+			@{jspart}
+		}
 
 3. *root.lsp* - A lua server page is used to generate response.
 
-	@{ master = rootmaster.master }
+		@{ master = rootmaster.master }
 
-	@ csspart {
-		@{ css("global") }
-	}
+		@ csspart {
+			@{ css("global") }
+		}
 
-	@jspart{
-		@{ javascript("jquery-2.1.4.min") }
-		@{ javascript("global", 3) }
-	}
+		@jspart{
+			@{ javascript("jquery-2.1.4.min") }
+			@{ javascript("global", 3) }
+		}
 
 4. *index.lsp* - A lua server page can also use another lua server page as master page.
 
-	@{ master = root.lsp }
+		@{ master = root.lsp }
 
-	@ title {
-		My web site
-	}
+		@ title {
+			My web site
+		}
 
-	@ body {
-		<p> here is a test message. </p>
-	}
+		@ body {
+			<p> here is a test message. </p>
+		}
 
 So the reponse of *index.lsp* should be :
 
