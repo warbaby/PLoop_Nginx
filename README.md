@@ -18,6 +18,171 @@ Install
 2. Using `./nginx -p /path to the the ploop_nginx/` to start server, use the browser open `http://localhost/index.lsp`, you'll see a test page if all works fine.
 
 
+Page Rendering
+====
+
+By using the [PLoop_Web](https://github.com/kurapica/PLoop_Web), an useful page rendering sytem can used for content files, it provides support for mixed lua-html page files, master page and other features.
+
+Here is an example of a lua server page :
+
+	@{ session=true } -- Page directive
+
+	@{
+		-- Lua codes
+		local function rollDice(num, max, add)
+			add = add or 0
+			for i = 1, num do add = add + math.random(max) end
+			return add
+		end
+	}
+
+	<html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<title>PLoop_Web Test Page</title>
+		</head>
+		<body>
+			@-- This line is a comment
+			@-- if an expression is applyed after '@', it would be used as output
+			<p> Session ID : @self.Context.Session.SessionID </p>
+			@-- if the line after @ started with keywords, if would be a line of lua statement
+			@ local rollResult = rollDice(3, 6, 5)
+			<p> roll dice 3d6+5 is @rollResult </p>
+			<p> roll dice 2d6+3 is @rollDice(2 6, 3) </p>
+		</body>
+	</html>
+
+The result would be :
+
+	<html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<title>PLoop_Web Test Page</title>
+		</head>
+		<body>
+			<p> Session ID : 645775C9-2881-DF0D-43B3-1FBF04FFA2F1 </p>
+			<p> roll dice 3d6+5 is 19 </p>
+			<p> roll dice 2d6+3 is 11 </p>
+		</body>
+	</html>
+
+A page file can use another page file as master page(it's a simple inheirt), so we can build pages like :
+
+	1. *globalmaster.master* - A master page can't be used to generate response, but can be used as other page's master page.
+
+		<html xmlns="http://www.w3.org/1999/xhtml">
+			<head>
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<title>@{title My test site}</title>
+				@{head}
+			</head>
+			<body>
+				@{body}
+			</body>
+		</html>
+
+	2. *rootmaster.master* - use globalmaster.master as master page with several part for head web part.
+
+		@{ master = globalmaster.master }
+
+		@{
+			local function appendVerSfx(path, suffix, version)
+				return path .. suffix .. (version and "?v=" .. tostring(version) or "")
+			end
+		}
+
+		@javascript(name, version) {
+			<script type="text/javascript" src="/js/@appendVerSfx(name, '.js', version)"></script>
+		}
+
+		@css(name, version) {
+			<link rel="stylesheet" type="text/css" href="/css/@appendVerSfx(name, '.css', version)" />
+		}
+
+		@ head {
+			@{csspart}
+			@{jspart}
+		}
+
+	3. *root.lsp* - A lua server page is used to generate response.
+
+		@{ master = rootmaster.master }
+
+		@ csspart {
+			@{ css("global") }
+		}
+
+		@jspart{
+			@{ javascript("jquery-2.1.4.min") }
+			@{ javascript("global", 3) }
+		}
+
+	4. *index.lsp* - A lua server page can also use another lua server page as master page.
+
+		@{ master = root.lsp }
+
+		@ title {
+			My web site
+		}
+
+		@ body {
+			<p> here is a test message. </p>
+		}
+
+	So the reponse of *index.lsp* should be :
+
+		<html xmlns="http://www.w3.org/1999/xhtml">
+			<head>
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<title>My web site</title>
+				<link rel="stylesheet" type="text/css" href="/css/global.css" />
+				<script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+				<script type="text/javascript" src="/js/index.js?v=3"></script>
+			</head>
+			<body>
+				<p> here is a test message. </p>
+			</body>
+		</html>
+
+
+You can find more information in [PLoop_Web](https://github.com/kurapica/PLoop_Web).
+
+
+MVC Example
+====
+
+For now, the module part are still under developing. Here is an example for a controller :
+
+	import "System.Web"
+
+	-- Define a controller inheirted from the System.Web.Controller
+	class "HomeController" { Controller }
+
+	-- function used to generate the data
+	local function getData(self)
+		return {
+			{ Name = "Ann", Age = 12 },
+			{ Name = "King", Age = 32 },
+			{ Name = "July", Age = 22 },
+			{ Name = "Sam", Age = 30 },
+		}
+	end
+
+	-- Define an action hander for [HTTPMETHOD-GET] /home/json
+	__HttpMethod__ "Get" "Json"
+	function HomeController:GetJson()
+		-- The reponse should be a json format data.
+		return self:Json( getData(self) )
+	end
+
+	-- Define an action handler for [HTTPMETHOD-ANY] /home/index
+	__HttpMethod__()
+	function HomeController:Index()
+		-- Use the view to generate content with datas
+		return self:View("/view/homepage.view", { Data = getData(self) })
+	end
+
+You can find more information in [PLoop_Web](https://github.com/kurapica/PLoop_Web).
+
+
 Directory Structure
 ====
 
@@ -240,5 +405,5 @@ There are two config file for the nginx example :
 			--- Direct map
 			Route(".*.lsp", "r=>r.Url:lower()")
 
-		You can find more information in *[[Route.lua|Route]]*.
+		You can find more information in **PLoop_Web**.
 
