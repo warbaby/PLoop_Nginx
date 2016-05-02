@@ -38,16 +38,16 @@ Server Life Cycle
 
 * There are no stop phase since there is no directive to register a handler for the worker's exiting. But you may add a context handler in the *config.lua* to check if the worker is exiting like :
 
-	IContextHandler {
-		ProcessPhase = ContextProcessPhase.InitProcess,
+		IContextHandler {
+			ProcessPhase = ContextProcessPhase.InitProcess,
 
-		Process = function(self, context)
-			if ngx.worker.exiting() then
-				-- The worker is exiting when Nginx server quit or configuration reload
-				-- do something
-			end
-		end,
-	}
+			Process = function(self, context)
+				if ngx.worker.exiting() then
+					-- The worker is exiting when Nginx server quit or configuration reload
+					-- do something
+				end
+			end,
+		}
 
 
 Page Rendering
@@ -270,28 +270,28 @@ The url redirect must be done before sending the response head, so we can do it 
 
 * Lua server page
 
-	@{ master = "root.lsp" }
+		@{ master = "root.lsp" }
 
-	@ {
-		function OnLoad(self, context)
-			if not context.Request.QueryString["user"] then
-				context.Response:Redirect("/err.lsp?reason=no_user")
+		@ {
+			function OnLoad(self, context)
+				if not context.Request.QueryString["user"] then
+					context.Response:Redirect("/err.lsp?reason=no_user")
+				end
 			end
-		end
-	}
+		}
 
 * Controller
 
-	import "System.Web"
+		import "System.Web"
 
-	class "HomeController" { Controller }
+		class "HomeController" { Controller }
 
-	-- Define an action hander for [HTTPMETHOD-GET] /home/json
-	__HttpMethod__ "Get"
-	function HomeController:Update(context)
-		-- the action don't handle the get method
-		return context.Response:Redirect("/err.lsp?reason=get_not_suport")
-	end
+		-- Define an action hander for [HTTPMETHOD-GET] /home/json
+		__HttpMethod__ "Get"
+		function HomeController:Update(context)
+			-- the action don't handle the get method
+			return context.Response:Redirect("/err.lsp?reason=get_not_suport")
+		end
 
 
 Directory Structure
