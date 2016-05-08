@@ -13,7 +13,7 @@ Install
 
 1. First You should follow the installation in [ngx_lua][].
 
-2. Use `git clone https://github.com/kurapica/PLoop_Ngzinx.git` clone the project to your disk, the project has added the [PLoop][] and [PLoop_Web][] as sub modules. So, if you download it directly, you should also download the [PLoop][] and [PLoop_Web][], then extract them into the PLoop_Nginx.
+2. Use `git clone https://github.com/kurapica/PLoop_Ngzinx.git` clone the project to your disk, then you should download the [PLoop][] and [PLoop_Web][], and extract them into the PLoop_Nginx.
 
 2. Using `./nginx -p /path to the the ploop_nginx/` to start server, use the browser open `http://localhost/index.lsp`, you'll see a test page if all works fine.
 
